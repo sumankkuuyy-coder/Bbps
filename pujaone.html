@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Order Summary | Gas Refill</title>
+    <style>
+        :root { --bbps-blue: #003366; --bbps-orange: #ff9933; --bg-gray: #f2f5f7; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        
+        body { background: var(--bg-gray); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
+
+        .summary-card {
+            background: #fff; width: 100%; max-width: 420px; border-radius: 4px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 6px solid var(--bbps-blue);
+        }
+
+        .header {
+            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+        .header img { height: 30px; }
+        .header-text { text-align: right; }
+        .header-text b { color: var(--bbps-blue); font-size: 14px; display: block; }
+
+        .content { padding: 25px 20px; }
+        .content h2 { 
+            font-size: 17px; color: #333; margin-bottom: 20px; 
+            display: flex; align-items: center; gap: 8px;
+        }
+        .content h2::before { content: ''; width: 4px; height: 18px; background: var(--bbps-orange); }
+
+        /* Bill Table Styling */
+        .bill-details { width: 100%; margin-bottom: 20px; border-collapse: collapse; }
+        .bill-details tr { border-bottom: 1px dashed #ddd; }
+        .bill-details td { padding: 12px 0; font-size: 14px; color: #555; }
+        .bill-details td:last-child { text-align: right; font-weight: bold; color: #333; }
+        
+        .total-row { border-bottom: none !important; background: #fffde7; }
+        .total-row td { padding: 15px 10px !important; font-size: 16px !important; color: var(--bbps-blue) !important; }
+
+        .notice {
+            background: #fdf2f2; border: 1px solid #fbd5d5; color: #9b1c1c;
+            padding: 10px; border-radius: 4px; font-size: 11px; margin-bottom: 20px;
+            text-align: center; font-weight: 500;
+        }
+
+        .btn-pay {
+            width: 100%; padding: 16px; background: var(--bbps-blue); color: #fff;
+            border: none; border-radius: 4px; font-size: 15px; font-weight: bold;
+            cursor: pointer; text-transform: uppercase;
+        }
+
+        .footer {
+            padding: 20px; text-align: center; border-top: 1px solid #eee; background: #fdfdfd;
+        }
+        .badges { display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; }
+        .badges img { height: 24px; }
+    </style>
+</head>
+<body>
+
+    <div class="summary-card">
+        <div class="header">
+            <img src="https://i.ibb.co/SX04FnNd/download.png" alt="BBPS">
+            <div class="header-text">
+                <b>PAYMENT SUMMARY</b>
+            </div>
+        </div>
+
+        <div class="content">
+            <h2>Booking Details</h2>
+            
+            <table class="bill-details">
+                <tr>
+                    <td>14.2 KG Domestic Cylinder</td>
+                    <td>₹890.00</td>
+                </tr>
+                <tr>
+                    <td>GST (CGST + SGST)</td>
+                    <td>₹44.50</td>
+                </tr>
+                <tr>
+                    <td>Home Delivery Charges</td>
+                    <td>₹25.00</td>
+                </tr>
+                <tr>
+                    <td>Online Service Charge</td>
+                    <td>₹16.00</td>
+                </tr>
+                <tr class="total-row">
+                    <td><b>Amount to Pay</b></td>
+                    <td><b>₹975.50</b></td>
+                </tr>
+            </table>
+
+            <div class="notice">
+                Kindly complete the payment to confirm your refill booking.
+            </div>
+
+            <button class="btn-pay" onclick="window.location.href='pujatwo.html'">PROCEED TO PAYMENT</button>
+        </div>
+
+        <div class="footer">
+            <div class="badges">
+                <img src="https://i.ibb.co/xSxD8C66/depositphotos-32936803-stock-illustration-secure-transaction-badge.webp">
+                <img src="https://i.ibb.co/SX04FnNd/download.png">
+                <img src="https://i.ibb.co/wNTdRvNm/images-5.jpg">
+            </div>
+            <p style="font-size: 9px; color: #aaa; text-transform: uppercase;">Verified by Bharat BillPay Service</p>
+        </div>
+    </div>
+
+</body>
+</html>
