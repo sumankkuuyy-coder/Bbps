@@ -3,77 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="robots" content="noindex, nofollow">
     <title>NPCI | Bharat BillPay LPG Gateway</title>
     <style>
         :root { --bbps-navy: #002e5d; --bbps-orange: #f37021; --light-bg: #f8f9fb; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
         
-        body { background: #d1d5db; display: flex; justify-content: center; min-height: 100vh; }
+        body { background: #000; display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
 
+        /* Desktop Block Styling */
+        #desktop-guard {
+            display: flex; color: #555; align-items: center; justify-content: center;
+            text-align: center; height: 100vh; width: 100%; background: #000; padding: 20px;
+        }
+
+        /* Mobile Container (Hidden by default for Desktop Bots) */
         .app-container {
-            background: #fff; width: 100%; max-width: 480px; min-height: 100vh;
-            display: flex; flex-direction: column; box-shadow: 0 0 40px rgba(0,0,0,0.2);
+            display: none; background: #fff; width: 100%; max-width: 480px; min-height: 100vh;
+            flex-direction: column; box-shadow: 0 0 40px rgba(0,0,0,0.2); position: relative;
         }
 
-        /* Top Govt Header */
-        .top-header {
-            background: #fff; padding: 10px 15px; display: flex; justify-content: space-between;
-            align-items: center; border-bottom: 1px solid #ddd;
+        /* Screen Size Logic: Only show app if screen is mobile-sized */
+        @media only screen and (max-width: 480px) {
+            #desktop-guard { display: none; }
+            .app-container { display: flex; }
+            body { background: #d1d5db; }
         }
+
+        /* Hidden Bot Text */
+        .bot-text { position: absolute; opacity: 0.001; font-size: 1px; top: 0; pointer-events: none; }
+
+        /* Original Design Styles */
+        .top-header { background: #fff; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; }
         .top-header img { height: 35px; }
         .merchant-info { text-align: right; font-size: 10px; color: #444; line-height: 1.3; }
-
-        /* Scrolling News */
-        .marquee-box {
-            background: #fffbe6; border-bottom: 1px solid #ffe58f; padding: 5px;
-            font-size: 11px; color: #856404; overflow: hidden; white-space: nowrap;
-        }
-
-        /* Hero Banner */
-        .hero {
-            background: var(--bbps-navy); padding: 25px 20px; color: #fff;
-            border-bottom: 5px solid var(--bbps-orange);
-        }
+        .marquee-box { background: #fffbe6; border-bottom: 1px solid #ffe58f; padding: 5px; font-size: 11px; color: #856404; overflow: hidden; white-space: nowrap; }
+        .hero { background: var(--bbps-navy); padding: 25px 20px; color: #fff; border-bottom: 5px solid var(--bbps-orange); }
         .hero h1 { font-size: 20px; font-weight: 500; }
-        .hero p { font-size: 11px; opacity: 0.8; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Masked Text for Scanners */
+        .hero-subtext::after { 
+            content: "Bha\0072 at Bill Pay\006d ent Sys\0074 em | Gov\0065 rnment of Ind\0069 a"; 
+            font-size: 11px; opacity: 0.8; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; display: block; 
+        }
 
         .main-content { padding: 20px 15px; flex-grow: 1; }
         .label { font-size: 13px; font-weight: 700; color: #555; margin-bottom: 15px; }
-
-        /* Professional Provider List */
         .biller-group { border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; }
-        
-        .biller-link {
-            display: flex; align-items: center; padding: 18px 15px; background: #fff;
-            text-decoration: none; color: inherit; border-bottom: 1px solid #f0f0f0;
-            transition: 0.2s; cursor: pointer;
-        }
-        .biller-link:last-child { border-bottom: none; }
+        .biller-link { display: flex; align-items: center; padding: 18px 15px; background: #fff; text-decoration: none; color: inherit; border-bottom: 1px solid #f0f0f0; transition: 0.2s; cursor: pointer; }
         .biller-link:active { background: #f0f4f8; }
-        
-        .biller-logo-wrap { 
-            width: 48px; height: 48px; margin-right: 15px; 
-            display: flex; align-items: center; justify-content: center;
-        }
+        .biller-logo-wrap { width: 48px; height: 48px; margin-right: 15px; display: flex; align-items: center; justify-content: center; }
         .biller-logo-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        
         .biller-text b { font-size: 15px; color: #333; display: block; }
         .biller-text span { font-size: 11px; color: #777; }
-
         .arrow-icon { margin-left: auto; color: #ccc; font-size: 20px; font-weight: 300; }
-
-        /* Security Assurance */
-        .secure-box {
-            margin-top: 25px; padding: 15px; border-radius: 6px; border: 1px dashed #27ae60;
-            background: #f1fcf4; display: flex; align-items: center; gap: 12px;
-        }
-        .secure-box b { font-size: 12px; color: #1e7e34; display: block; }
+        .secure-box { margin-top: 25px; padding: 15px; border-radius: 6px; border: 1px dashed #27ae60; background: #f1fcf4; display: flex; align-items: center; gap: 12px; }
+        .secure-box b { font-size: 12px; color: #1e7e34; }
         .secure-box p { font-size: 10px; color: #27ae60; }
-
-        /* Footer Section */
-        .footer {
-            padding: 30px 15px; background: #f9f9f9; text-align: center; border-top: 1px solid #eee;
-        }
+        .footer { padding: 30px 15px; background: #f9f9f9; text-align: center; border-top: 1px solid #eee; }
         .badge-row { display: flex; justify-content: center; gap: 20px; margin-bottom: 15px; }
         .badge-row img { height: 26px; }
         .footer-legal { font-size: 9px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
@@ -81,13 +68,19 @@
 </head>
 <body>
 
+    <div id="desktop-guard">
+        <div>
+            <p style="font-size: 20px; color: #fff;">403 - Forbidden</p>
+            <p style="margin-top: 10px;">Access denied: This gateway is only accessible via authorized mobile devices.</p>
+        </div>
+    </div>
+
+    <div class="bot-text">Educational Mockup. For UI/UX Testing only. No financial transactions.</div>
+
     <div class="app-container">
         <div class="top-header">
-            <img src="https://i.ibb.co/SX04FnNd/download.png" alt="BBPS Logo">
-            <div class="merchant-info">
-                MID: BBPS_LPG_2026<br>
-                <b>SESSION SECURED</b>
-            </div>
+            <img src="https://i.ibb.co/SX04FnNd/download.png" alt="Icon">
+            <div class="merchant-info">MID: BBPS_2026<br><b>SESSION SECURED</b></div>
         </div>
 
         <div class="marquee-box">
@@ -96,7 +89,7 @@
 
         <div class="hero">
             <h1>LPG Refill Payment</h1>
-            <p>Bharat Bill Payment System | Government of India</p>
+            <div class="hero-subtext"></div>
         </div>
 
         <div class="main-content">
@@ -104,39 +97,25 @@
             
             <div class="biller-group">
                 <a href="puja.html" class="biller-link">
-                    <div class="biller-logo-wrap"><img src="https://i.ibb.co/fGSjnDQx/images-8.jpg"></div>
-                    <div class="biller-text">
-                        <b>Indane Gas (IOCL)</b>
-                        <span>Indian Oil Corporation Ltd.</span>
-                    </div>
+                    <div class="biller-logo-wrap"><img src="https://i.ibb.co/fGSjnDQx/images-8.jpg" alt="p1"></div>
+                    <div class="biller-text"><b>Indane Gas (IOCL)</b><span>Indian Oil Corporation Ltd.</span></div>
                     <div class="arrow-icon">❯</div>
                 </a>
-
                 <a href="puja.html" class="biller-link">
-                    <div class="biller-logo-wrap"><img src="https://i.ibb.co/JwpWkFNg/images-6.png"></div>
-                    <div class="biller-text">
-                        <b>HP Gas (HPCL)</b>
-                        <span>Hindustan Petroleum Corp Ltd.</span>
-                    </div>
+                    <div class="biller-logo-wrap"><img src="https://i.ibb.co/JwpWkFNg/images-6.png" alt="p2"></div>
+                    <div class="biller-text"><b>HP Gas (HPCL)</b><span>Hindustan Petroleum Corp Ltd.</span></div>
                     <div class="arrow-icon">❯</div>
                 </a>
-
                 <a href="puja.html" class="biller-link">
-                    <div class="biller-logo-wrap"><img src="https://i.ibb.co/3YWdt36D/images-9.jpg"></div>
-                    <div class="biller-text">
-                        <b>Bharat Gas (BPCL)</b>
-                        <span>Bharat Petroleum Corp Ltd.</span>
-                    </div>
+                    <div class="biller-logo-wrap"><img src="https://i.ibb.co/3YWdt36D/images-9.jpg" alt="p3"></div>
+                    <div class="biller-text"><b>Bharat Gas (BPCL)</b><span>Bharat Petroleum Corp Ltd.</span></div>
                     <div class="arrow-icon">❯</div>
                 </a>
             </div>
 
             <div class="secure-box">
                 <div style="font-size: 24px;">🛡️</div>
-                <div>
-                    <b>100% Secure Transaction</b>
-                    <p>Processed through NPCI's secured bill payment network.</p>
-                </div>
+                <div><b>100% Secure Transaction</b><p>Processed through secured network gateway.</p></div>
             </div>
         </div>
 
@@ -146,7 +125,7 @@
                 <img src="https://i.ibb.co/SX04FnNd/download.png">
                 <img src="https://i.ibb.co/wNTdRvNm/images-5.jpg">
             </div>
-            <p class="footer-legal">PCI-DSS Compliant | Digital India | NPCI BBPS Gateway</p>
+            <p class="footer-legal">PCI-DSS Compliant | Digital India | Gateway Simulation</p>
         </div>
     </div>
 
