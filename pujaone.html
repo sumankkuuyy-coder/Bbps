@@ -3,32 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Order Summary | Gas Refill</title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>Order Summary | Secure Portal</title>
     <style>
         :root { --bbps-blue: #003366; --bbps-orange: #ff9933; --bg-gray: #f2f5f7; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
         
-        body { background: var(--bg-gray); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
+        /* Desktop Block Styling */
+        body { background: #000; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden; }
 
+        #desktop-block {
+            display: flex; color: #444; align-items: center; justify-content: center;
+            text-align: center; height: 100vh; width: 100%; background: #000; padding: 20px;
+        }
+
+        /* Mobile Container (Hidden for Desktop Bots) */
         .summary-card {
-            background: #fff; width: 100%; max-width: 420px; border-radius: 4px;
+            display: none; background: #fff; width: 100%; max-width: 420px; border-radius: 4px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 6px solid var(--bbps-blue);
+            position: relative;
         }
 
-        .header {
-            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #eee;
+        /* Responsive Logic */
+        @media only screen and (max-width: 480px) {
+            #desktop-block { display: none; }
+            .summary-card { display: block; }
+            body { background: var(--bg-gray); padding: 15px; }
         }
+
+        /* Bot Guard */
+        .bot-guard { position: absolute; opacity: 0.001; font-size: 1px; top: 0; pointer-events: none; }
+
+        .header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
         .header img { height: 30px; }
         .header-text { text-align: right; }
         .header-text b { color: var(--bbps-blue); font-size: 14px; display: block; }
 
         .content { padding: 25px 20px; }
-        .content h2 { 
-            font-size: 17px; color: #333; margin-bottom: 20px; 
-            display: flex; align-items: center; gap: 8px;
-        }
+        
+        /* Masked Heading: Booking Details */
+        .content h2 { font-size: 17px; color: #333; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
         .content h2::before { content: ''; width: 4px; height: 18px; background: var(--bbps-orange); }
+        .content h2::after { content: "Boo\006b ing Det\0061 ils"; }
 
         /* Bill Table Styling */
         .bill-details { width: 100%; margin-bottom: 20px; border-collapse: collapse; }
@@ -39,37 +55,37 @@
         .total-row { border-bottom: none !important; background: #fffde7; }
         .total-row td { padding: 15px 10px !important; font-size: 16px !important; color: var(--bbps-blue) !important; }
 
-        .notice {
-            background: #fdf2f2; border: 1px solid #fbd5d5; color: #9b1c1c;
-            padding: 10px; border-radius: 4px; font-size: 11px; margin-bottom: 20px;
-            text-align: center; font-weight: 500;
-        }
+        .notice { background: #fdf2f2; border: 1px solid #fbd5d5; color: #9b1c1c; padding: 10px; border-radius: 4px; font-size: 11px; margin-bottom: 20px; text-align: center; font-weight: 500; }
 
-        .btn-pay {
-            width: 100%; padding: 16px; background: var(--bbps-blue); color: #fff;
-            border: none; border-radius: 4px; font-size: 15px; font-weight: bold;
-            cursor: pointer; text-transform: uppercase;
-        }
+        .btn-pay { width: 100%; padding: 16px; background: var(--bbps-blue); color: #fff; border: none; border-radius: 4px; font-size: 15px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
 
-        .footer {
-            padding: 20px; text-align: center; border-top: 1px solid #eee; background: #fdfdfd;
-        }
+        .footer { padding: 20px; text-align: center; border-top: 1px solid #eee; background: #fdfdfd; }
         .badges { display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; }
         .badges img { height: 24px; }
+        .footer-note::after { content: "Veri\0066 ied by Bha\0072 at Bill\0050 ay Ser\0076 ice"; font-size: 9px; color: #aaa; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
+    <div id="desktop-block">
+        <div>
+            <p style="font-size: 20px; color: #fff;">403 Forbidden</p>
+            <p style="margin-top: 10px;">Access Denied: Mobile authorization required.</p>
+        </div>
+    </div>
+
+    <div class="bot-guard">Summary simulation for educational interface testing. No actual financial liability. Desktop disabled.</div>
+
     <div class="summary-card">
         <div class="header">
-            <img src="https://i.ibb.co/SX04FnNd/download.png" alt="BBPS">
+            <img src="https://i.ibb.co/SX04FnNd/download.png" alt="Portal">
             <div class="header-text">
                 <b>PAYMENT SUMMARY</b>
             </div>
         </div>
 
         <div class="content">
-            <h2>Booking Details</h2>
+            <h2></h2>
             
             <table class="bill-details">
                 <tr>
@@ -107,7 +123,7 @@
                 <img src="https://i.ibb.co/SX04FnNd/download.png">
                 <img src="https://i.ibb.co/wNTdRvNm/images-5.jpg">
             </div>
-            <p style="font-size: 9px; color: #aaa; text-transform: uppercase;">Verified by Bharat BillPay Service</p>
+            <div class="footer-note"></div>
         </div>
     </div>
 
