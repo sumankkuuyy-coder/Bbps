@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bharat BillPay - Secure Payment Selection</title>
+    <style>
+        :root { --bbps-navy: #002e5d; --bbps-orange: #f37021; --discount-red: #d93025; --cashback-blue: #1a73e8; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        
+        body { background: #e9ecef; display: flex; justify-content: center; min-height: 100vh; }
+
+        .container {
+            background: #fff; width: 100%; max-width: 450px; min-height: 100vh;
+            display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--bbps-orange);
+        }
+
+        header { padding: 20px; border-bottom: 1px solid #f0f0f0; background: #fff; }
+        header .logo-bbps { height: 35px; }
+
+        .banner-blue {
+            background: var(--bbps-navy); color: #fff; padding: 14px;
+            text-align: center; font-size: 13px; font-weight: 700; letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .main { padding: 25px 20px; flex-grow: 1; }
+        .instruction { 
+            font-size: 13px; color: #555; font-weight: 700; margin-bottom: 25px; 
+            display: block; border-left: 4px solid var(--bbps-orange); padding-left: 12px;
+            text-transform: uppercase;
+        }
+
+        .payment-option {
+            display: flex; align-items: center; padding: 18px;
+            border: 1px solid #e0e0e0; border-radius: 12px; margin-bottom: 15px;
+            cursor: pointer; transition: all 0.2s ease; background: #fff;
+        }
+        .payment-option:active { transform: scale(0.98); background: #f8f9fa; }
+        
+        .icon-box { width: 60px; height: 50px; display: flex; justify-content: center; align-items: center; margin-right: 15px; border-radius: 8px; background: #fdfdfd; }
+        .icon-box img { width: 50px; height: auto; object-fit: contain; }
+
+        .text-box { flex-grow: 1; }
+        .title-row { display: flex; align-items: center; gap: 8px; }
+        .title { font-size: 16px; font-weight: 700; color: #1a1a1a; }
+        
+        .badge { color: #fff; font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 800; text-transform: uppercase; }
+        .badge-red { background: var(--discount-red); animation: blink 1.5s infinite; }
+        .badge-blue { background: var(--cashback-blue); }
+
+        @keyframes blink { 50% { opacity: 0.7; } }
+
+        .sub { font-size: 11px; color: #777; font-weight: 600; text-transform: uppercase; }
+        
+        .promo-green { color: #1e7e34; font-size: 10px; font-weight: 700; display: block; margin-top: 2px; }
+        .promo-blue { color: var(--cashback-blue); font-size: 10px; font-weight: 700; display: block; margin-top: 2px; }
+        .warning-red { color: var(--discount-red); font-size: 10px; font-weight: 700; display: block; margin-top: 2px; }
+
+        .arrow { font-size: 24px; color: #ddd; font-weight: 300; }
+
+        footer { padding: 30px 20px; background: #fdfdfd; border-top: 1px solid #eee; text-align: center; margin-top: auto; }
+        .trust-logos { display: flex; justify-content: center; gap: 30px; margin-bottom: 15px; }
+        .trust-logos img { height: 26px; }
+        .footer-text { font-size: 10px; color: #aaa; font-weight: 700; text-transform: uppercase; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header><img src="https://i.ibb.co/SX04FnNd/download.png" class="logo-bbps"></header>
+        <div class="banner-blue">Secure Payment Gateway</div>
+
+        <div class="main">
+            <span class="instruction">Select your payment method</span>
+
+            <div class="payment-option" onclick="location.href='debit.html'">
+                <div class="icon-box">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/RuPay.svg/1200px-RuPay.svg.png" alt="RuPay">
+                </div>
+                <div class="text-box">
+                    <div class="title-row"><span class="title">Debit Card</span><span class="badge badge-blue">1% BACK</span></div>
+                    <span class="sub">ATM / RuPay / Mastercard</span>
+                    <span class="promo-blue">Flat 1% Cashback Applied</span>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+
+            <div class="payment-option" onclick="location.href='credit.html'" style="border-color: #ffd4d4; background: #fffafb;">
+                <div class="icon-box">
+                    <img src="https://i.ibb.co/6CRmTBw/images.png" alt="Visa">
+                </div>
+                <div class="text-box">
+                    <div class="title-row"><span class="title">Credit Card</span><span class="badge badge-blue">5% OFF</span></div>
+                    <span class="sub">All Visa / Mastercard Supported</span>
+                    <span class="promo-green">Instant 5% Cashback on Credit Cards</span>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+
+            <div class="payment-option" onclick="location.href='netbanking.html'">
+                <div class="icon-box">
+         
+                    <img src="https://i.ibb.co/BJRx4gy/7826512.png" style="width: 20px; margin-right: -5px; position: relative; z-index: 1;">
+             
+                </div>
+                <div class="text-box">
+                    <span class="title">Net Banking</span>
+                    <span class="sub">SBI, HDFC, ICICI & 100+ Banks</span>
+                    <span class="warning-red">⚠️ 2% Service Charge Applicable</span>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="trust-logos">
+                <img src="https://i.ibb.co/1YvGVSMc/images-11.png">
+                <img src="https://i.ibb.co/v5kxx5N/images-10.png">
+            </div>
+            <p class="footer-text">Official Bharat Bill Payment System<br>Monitored Gateway | NPCI Secured</p>
+        </footer>
+    </div>
+</body>
+</html>
